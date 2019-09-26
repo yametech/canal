@@ -103,7 +103,7 @@ func (v Value) String() string {
 func concatArray(wr io.Writer, vs ...Value) {
 	for i := range vs {
 		wr.Write([]byte(vs[i].String()))
-		wr.Write([]byte{' '})
+		wr.Write([]byte("\r\n"))
 		concatArray(wr, vs[i].Array()...)
 	}
 }

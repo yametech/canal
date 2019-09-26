@@ -25,7 +25,7 @@ func (c *Command) Args() []interface{} {
 }
 
 func buildStrCommand(s string) []string {
-	return strings.Split(s, " ")
+	return strings.Split(s, "\r\n")
 }
 
 func NewCommand(args ...string) (*Command, error) {
