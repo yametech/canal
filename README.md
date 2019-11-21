@@ -1,10 +1,5 @@
 # canal
-redis-canal
-
-support redis-5.0-5 and backward compatibility with mixed protocol replication
-
-
-
+redis-canal support redis 5.0.5 and backward compatibility with mixed protocol replication
 
 ### Simple Example
 
@@ -12,8 +7,9 @@ support redis-5.0-5 and backward compatibility with mixed protocol replication
 go get github.com/yametech/canal
 ```
 
-
 ```go
+// start a new replication
+
 package main
 
 import (
@@ -53,12 +49,8 @@ func main() {
 		panic(err)
 	}
 }
-```
 
-
-### FromOffset Example
-
-```go
+// starting from the location of an instance example
 package main
 
 import (
