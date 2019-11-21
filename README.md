@@ -1,4 +1,5 @@
 # canal
+[![Build Status](https://github.com/yametech/canal/workflows/canal/badge.svg?event=push&branch=master)](https://github.com/yametech/canal/actions?workflow=canal)
 redis-canal support redis 5.0.5 and backward compatibility with mixed protocol replication
 
 ### Simple Example
