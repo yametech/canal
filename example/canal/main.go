@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/laik/canal"
+	"github.com/yametech/canal"
 )
 
 // update trigger
