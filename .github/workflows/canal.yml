@@ -1,4 +1,4 @@
-name: fuxi
+name: canal
 on:
   push:
     branches:
