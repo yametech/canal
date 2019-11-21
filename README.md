@@ -1,17 +1,23 @@
 # canal
 redis-canal
 
-```go
-go get github.com/laik/canal
-```
+support redis-5.0-5 and backward compatibility with mixed protocol replication
+
+
 
 
 ### Simple Example
+
+```go
+go get github.com/yametech/canal
+```
+
+
 ```go
 package main
 
 import (
-	"github.com/laik/canal"
+	"github.com/yametech/canal"
 	"log"
 	"os"
 	"time"
@@ -56,7 +62,7 @@ func main() {
 package main
 
 import (
-	"github.com/laik/canal"
+	"github.com/yametech/canal"
 	"log"
 	"os"
 	"time"
