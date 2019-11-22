@@ -49,7 +49,7 @@ func (c *Canal) dump(w io.Writer) error {
 		if err != nil {
 			return err
 		}
-		xmit.Put(buf)
+		xmit.Put(&buf)
 	}
 }
 
@@ -63,13 +63,12 @@ func (c *Canal) dumpAndParse() (err error) {
 	done := make(chan error, 1)
 	go func() {
 		err := c.handler(r)
-		r.CloseWithError(err)
+		_ = w.CloseWithError(err)
 		done <- err
 	}()
 
 	err = c.dump(w)
-	w.CloseWithError(err)
-
+	_ = w.CloseWithError(err)
 	err = <-done
 
 	return err

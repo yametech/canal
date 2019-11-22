@@ -25,7 +25,7 @@ import (
 	"strings"
 )
 
-const bufsz = 4096
+//const bufsz = 4096
 
 // Type represents a Value type
 type Type byte
@@ -111,15 +111,22 @@ func (v Value) String() string {
 		concatArray(buf, v.ArrayV...)
 		return strings.TrimSuffix(buf.String(), " ")
 	case '\r':
-		return fmt.Sprintf("%s", "\r\n")
+		return "\r\n"
 	}
 	return ""
 }
 
 func concatArray(wr io.Writer, vs ...Value) {
 	for i := range vs {
-		wr.Write([]byte(vs[i].String()))
-		wr.Write([]byte("\r\n"))
+		_, err := wr.Write([]byte(vs[i].String()))
+		if err != nil {
+			panic(err)
+		}
+		_, err = wr.Write([]byte("\r\n"))
+		if err != nil {
+			panic(err)
+		}
+
 		concatArray(wr, vs[i].Array()...)
 	}
 }

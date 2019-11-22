@@ -40,13 +40,12 @@ func (c *Canal) Offset() string {
 
 func (c *Canal) BeginRDB() {}
 
-func (c *Canal) BeginDatabase(n int) error {
+func (c *Canal) BeginDatabase(n int) {
 	c.db = n
 	cmd, _ := NewCommand("SELECT", fmt.Sprintf("%d", n))
 	if err := c.Command(cmd); err != nil {
-		return err
+		panic(err)
 	}
-	return nil
 }
 
 func (c *Canal) Aux(key, value []byte) {
@@ -65,69 +64,63 @@ func (c *Canal) ResizeDatabase(dbSize, expiresSize uint32) {}
 
 func (c *Canal) EndDatabase(n int) {}
 
-func (c *Canal) Set(key, value []byte, expiry int64) error {
+//todo: will return error
+func (c *Canal) Set(key, value []byte, expiry int64) {
 	cmd, _ := NewCommand("SET", string(key), string(value))
 	if err := c.Command(cmd); err != nil {
-		return err
+		panic(err)
 	}
-	return nil
 }
 
 func (c *Canal) BeginHash(key []byte, length, expiry int64) {}
 
-func (c *Canal) Hset(key, field, value []byte) error {
+func (c *Canal) Hset(key, field, value []byte) {
 	cmd, _ := NewCommand("HSET", string(key), string(field), string(value))
 	if err := c.Command(cmd); err != nil {
-		return err
+		panic(err)
 	}
-	return nil
 }
 func (c *Canal) EndHash(key []byte) {}
 
 func (c *Canal) BeginSet(key []byte, cardinality, expiry int64) {}
 
-func (c *Canal) Sadd(key, member []byte) error {
+func (c *Canal) Sadd(key, member []byte) {
 	cmd, _ := NewCommand("SADD", string(key), string(member))
 	if err := c.Command(cmd); err != nil {
-		return err
+		panic(err)
 	}
-	return nil
 }
 func (c *Canal) EndSet(key []byte) {}
 
 func (c *Canal) BeginList(key []byte, length, expiry int64) {}
 
-func (c *Canal) Rpush(key, value []byte) error {
+func (c *Canal) Rpush(key, value []byte) {
 	cmd, _ := NewCommand("RPUSH", string(key), string(value))
 	if err := c.Command(cmd); err != nil {
-		return err
+		panic(err)
 	}
-	return nil
 }
 func (c *Canal) EndList(key []byte) {}
 
 func (c *Canal) BeginZSet(key []byte, cardinality, expiry int64) {}
 
-func (c *Canal) Zadd(key []byte, score float64, member []byte) error {
+func (c *Canal) Zadd(key []byte, score float64, member []byte) {
 	cmd, _ := NewCommand("ZADD", string(key), fmt.Sprintf("%f", score), string(member))
 	if err := c.Command(cmd); err != nil {
-		return err
+		panic(err)
 	}
-	return nil
 }
 func (c *Canal) EndZSet(key []byte) {}
 
 func (c *Canal) BeginStream(key []byte, cardinality, expiry int64) {}
 
-func (c *Canal) Xadd(key, id, listpack []byte) error {
+func (c *Canal) Xadd(key, id, listpack []byte) {
 	cmd, _ := NewCommand("XADD", string(key), string(id), string(listpack))
 	if err := c.Command(cmd); err != nil {
-		return err
+		panic(err)
 	}
-	return nil
 }
 func (c *Canal) EndStream(key []byte) {}
 
 func (c *Canal) EndRDB() {
-	// log.Printf("rdb end")
 }

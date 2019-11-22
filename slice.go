@@ -39,7 +39,11 @@ func (s *sliceBuffer) Slice(n int) ([]byte, error) {
 	return b, nil
 }
 
-func (s *sliceBuffer) Skip(n int) { s.Slice(n) }
+func (s *sliceBuffer) Skip(n int) {
+	if _, err := s.Slice(n); err != nil {
+		panic(err)
+	}
+}
 
 func (s *sliceBuffer) ReadByte() (byte, error) {
 	if s.i >= len(s.s) {

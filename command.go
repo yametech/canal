@@ -33,7 +33,9 @@ func (c *Command) String() string {
 }
 
 func (c *Command) Args() []interface{} {
-	args := make([]interface{}, len(c.D)-1, len(c.D)-1)
+	length := len(c.D) - 1
+	cap := len(c.D) - 1
+	args := make([]interface{}, length, cap)
 	for i := range c.D[1:] {
 		args[i] = c.D[i+1]
 	}
