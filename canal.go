@@ -24,7 +24,7 @@ type Config struct {
 func iter(i int) []struct{} { return make([]struct{}, i) }
 
 func (c *Config) reconfig() error {
-	for i, _ := range c.conns {
+	for i := range c.conns {
 		err := c.conns[i].Close()
 		if err != nil {
 			return err

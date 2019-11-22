@@ -34,15 +34,15 @@ func TestArrayString(t *testing.T) {
 	arrayValue := Value{
 		Typ: Array,
 		ArrayV: []Value{
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("SET"),
 			},
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("A"),
 			},
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("123"),
 			},
@@ -56,19 +56,19 @@ func TestArrayString(t *testing.T) {
 	arrayValue2 := Value{
 		Typ: Array,
 		ArrayV: []Value{
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("SADD"),
 			},
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("SK1"),
 			},
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("1"),
 			},
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("2"),
 			},
@@ -79,11 +79,11 @@ func TestArrayString(t *testing.T) {
 	arrayValue3 := Value{
 		Typ: Array,
 		ArrayV: []Value{
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("SELECT"),
 			},
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("1"),
 			},
@@ -96,39 +96,39 @@ func TestArrayString(t *testing.T) {
 	arrayValue4 := Value{
 		Typ: Array,
 		ArrayV: []Value{
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("XADD"),
 			},
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("x"),
 			},
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("1"),
 			},
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("f1"),
 			},
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("v1"),
 			},
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("f2"),
 			},
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("v2"),
 			},
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("f3"),
 			},
-			Value{
+			{
 				Typ: BulkString,
 				Str: []byte("v3"),
 			},
@@ -496,7 +496,7 @@ func TestReader(t *testing.T) {
 		testCommandResult(t, "*1\r\n$4\r\nping\r\n",
 			Value{Typ: Array,
 				ArrayV: []Value{
-					Value{Typ: BulkString,
+					{Typ: BulkString,
 						Str: []byte("ping"),
 					},
 				},
