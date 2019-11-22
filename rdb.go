@@ -156,7 +156,9 @@ func (d *rdbDecode) readObject(key []byte, typ ValueType, expiry int64) error {
 		d.event.BeginList(key, int64(-1), expiry)
 		for length > 0 {
 			length--
-			d.readZiplist(key, 0, false)
+			if err := d.readZiplist(key, 0, false); err != nil {
+				panic(err)
+			}
 		}
 		d.event.EndList(key)
 	case TypeSet:
@@ -262,7 +264,7 @@ func (d *rdbDecode) readStreamID() (uint64, uint64, error) {
 	if err != nil {
 		return 0, 0, err
 	}
-	seq, _ := slb.Slice(8)
+	seq, err := slb.Slice(8)
 	if err != nil {
 		return 0, 0, err
 	}
@@ -344,7 +346,9 @@ func (d *rdbDecode) readStream(key []byte, expiry int64) error {
 			}
 			tempFileds[i] = b
 		}
-		readListPackV2(listpack)
+		if _, err := readListPackV2(listpack); err != nil {
+			panic(err)
+		}
 
 		_, _, _ = count, deleted, num_fields
 		total := count + deleted
@@ -439,7 +443,9 @@ func (d *rdbDecode) readStream(key []byte, expiry int64) error {
 				d.event.Xadd(key, []byte(fmt.Sprintf("%d-%d", epoch+_ms, sequence)), data[0:len(data)-1])
 				data = data[:0]
 			}
-			readListPackV2(listpack) // lp-count
+			if _, err := readListPackV2(listpack); err != nil {
+				panic(err)
+			} // lp-count
 		}
 
 		eb, err := listpack.ReadByte() // lp-end
@@ -846,7 +852,9 @@ func (d *rdbDecode) readZiplistHash(key []byte, expiry int64) error {
 }
 
 func readZiplistLength(buf *sliceBuffer) (int64, error) {
-	buf.Seek(8, 0) // skip the zlbytes and zltail
+	if _, err := buf.Seek(8, 0); err != nil {
+		return 0, err
+	} // skip the zlbytes and zltail
 	lenBytes, err := buf.Slice(2)
 	if err != nil {
 		return 0, err
@@ -860,7 +868,9 @@ func readZiplistEntry(buf *sliceBuffer) ([]byte, error) {
 		return nil, err
 	}
 	if prevLen == 254 {
-		buf.Seek(4, 1) // skip the 4-byte prevlen
+		if _, err := buf.Seek(4, 1); err != nil {
+			return nil, err
+		} // skip the 4-byte prevlen
 	}
 
 	header, err := buf.ReadByte()
@@ -967,7 +977,9 @@ func (d *rdbDecode) checkHeader(file bool) error {
 			return err
 		}
 		if b == 'R' {
-			d.r.UnreadByte()
+			if err := d.r.UnreadByte(); err != nil {
+				return err
+			}
 			break
 		}
 
@@ -1155,21 +1167,21 @@ func (d *rdbDecode) readLength() (uint64, bool, error) {
 
 }
 
-func verifyDump(d []byte) error {
-	if len(d) < 10 {
-		return fmt.Errorf("rdb: invalid dump length")
-	}
-	version := binary.LittleEndian.Uint16(d[len(d)-10:])
-	if version > uint16(rdbVersion) {
-		return fmt.Errorf("rdb: invalid version %d, expecting %d", version, rdbVersion)
-	}
-
-	if binary.LittleEndian.Uint64(d[len(d)-8:]) != Digest(d[:len(d)-8]) {
-		return fmt.Errorf("rdb: invalid CRC checksum")
-	}
-
-	return nil
-}
+//func verifyDump(d []byte) error {
+//	if len(d) < 10 {
+//		return fmt.Errorf("rdb: invalid dump length")
+//	}
+//	version := binary.LittleEndian.Uint16(d[len(d)-10:])
+//	if version > uint16(rdbVersion) {
+//		return fmt.Errorf("rdb: invalid version %d, expecting %d", version, rdbVersion)
+//	}
+//
+//	if binary.LittleEndian.Uint64(d[len(d)-8:]) != Digest(d[:len(d)-8]) {
+//		return fmt.Errorf("rdb: invalid CRC checksum")
+//	}
+//
+//	return nil
+//}
 
 func lzfDecompress(in []byte, outlen int) []byte {
 	out := make([]byte, outlen)

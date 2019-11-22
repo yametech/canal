@@ -1,3 +1,19 @@
+/*
+Copyright 2019 yametech.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package canal
 
 import (
@@ -23,12 +39,12 @@ func (rd *reader) readBulk() (value Value, n int, err error) {
 	return
 }
 
-// readMultiBulk reads the next multi bulk Value from Reader.
-// A multi bulk value is a RESP ArrayV that contains one or more bulk strings.
-// For more information on RESP arrays and strings please see http://redis.io/topics/protocol.
-func (rd *reader) readMultiBulk() (value Value, n int, err error) {
-	return rd.readValue(true, false)
-}
+//// readMultiBulk reads the next multi bulk Value from Reader.
+//// A multi bulk value is a RESP ArrayV that contains one or more bulk strings.
+//// For more information on RESP arrays and strings please see http://redis.io/topics/protocol.
+//func (rd *reader) readMultiBulk() (value Value, n int, err error) {
+//	return rd.readValue(true, false)
+//}
 
 func (rd *reader) readValue(multibulk, child bool) (val Value, n int, err error) {
 	var rn int

@@ -17,7 +17,7 @@ lint:
 
 .PHONY: test
 test:
-	go test  -mod=vendor
+	go test
 
 
 

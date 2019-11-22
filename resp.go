@@ -1,3 +1,19 @@
+/*
+Copyright 2019 yametech.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package canal
 
 import (
@@ -9,7 +25,7 @@ import (
 	"strings"
 )
 
-const bufsz = 4096
+//const bufsz = 4096
 
 // Type represents a Value type
 type Type byte
@@ -95,15 +111,22 @@ func (v Value) String() string {
 		concatArray(buf, v.ArrayV...)
 		return strings.TrimSuffix(buf.String(), " ")
 	case '\r':
-		return fmt.Sprintf("%s", "\r\n")
+		return "\r\n"
 	}
 	return ""
 }
 
 func concatArray(wr io.Writer, vs ...Value) {
 	for i := range vs {
-		wr.Write([]byte(vs[i].String()))
-		wr.Write([]byte("\r\n"))
+		_, err := wr.Write([]byte(vs[i].String()))
+		if err != nil {
+			panic(err)
+		}
+		_, err = wr.Write([]byte("\r\n"))
+		if err != nil {
+			panic(err)
+		}
+
 		concatArray(wr, vs[i].Array()...)
 	}
 }

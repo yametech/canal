@@ -1,3 +1,18 @@
+/*
+Copyright 2019 yametech.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 package canal
 
 import (
@@ -40,12 +55,8 @@ func (c *Config) reconfig() error {
 	return nil
 }
 
-func (c *Config) first() net.Conn {
-	return c.conns[0]
-}
-
 func NewConfig(addr string, opts ...DialOption) (*Config, error) {
-	conns := make([]net.Conn, 1, 1)
+	conns := make([]net.Conn, 1)
 	for i := range iter(1) {
 		conn, err := dial("tcp", addr, opts...)
 		if err != nil {
@@ -143,7 +154,6 @@ func (c *Canal) Run(commandDecode CommandDecoder) error {
 func (c *Canal) Close()            { c.closeReplica <- struct{}{} }
 func (c *Canal) GetReplId() string { return c.replId }
 
-func (c *Canal) setID(key string)     { c.replId = key }
 func (c *Canal) getNetConn() net.Conn { return c.cfg.conns[0] }
 
 func (c *Canal) replconf() error {
@@ -161,8 +171,7 @@ func (c *Canal) replconf() error {
 		return errors.New("get version error")
 	}
 	if version > "4.0.0" {
-		var err error
-		err = c.wr.writeMultiBulk("REPLCONF", "listening-port", port)
+		err := c.wr.writeMultiBulk("REPLCONF", "listening-port", port)
 		if err != nil {
 			return err
 		}

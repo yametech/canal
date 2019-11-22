@@ -1,12 +1,24 @@
+/*
+Copyright 2019 yametech.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package canal
 
 import (
 	"bytes"
-	"crypto/rand"
-	"encoding/binary"
-	"fmt"
 	"io"
-	"strconv"
 	"strings"
 	"testing"
 
@@ -30,112 +42,112 @@ func TestAnyValues(t *testing.T) {
 	}
 }
 
-func TestArrayString(t *testing.T) {
-	arrayValue := Value{
-		Typ: Array,
-		ArrayV: []Value{
-			{
-				Typ: BulkString,
-				Str: []byte("SET"),
-			},
-			{
-				Typ: BulkString,
-				Str: []byte("A"),
-			},
-			{
-				Typ: BulkString,
-				Str: []byte("123"),
-			},
-		},
-	}
-
-	arrayStr := arrayValue.String()
-
-	assert.Equal(t, "SET A 123", arrayStr, "should be euqal")
-
-	arrayValue2 := Value{
-		Typ: Array,
-		ArrayV: []Value{
-			{
-				Typ: BulkString,
-				Str: []byte("SADD"),
-			},
-			{
-				Typ: BulkString,
-				Str: []byte("SK1"),
-			},
-			{
-				Typ: BulkString,
-				Str: []byte("1"),
-			},
-			{
-				Typ: BulkString,
-				Str: []byte("2"),
-			},
-		},
-	}
-	assert.Equal(t, "SADD SK1 1 2", arrayValue2.String(), "should be euqal")
-
-	arrayValue3 := Value{
-		Typ: Array,
-		ArrayV: []Value{
-			{
-				Typ: BulkString,
-				Str: []byte("SELECT"),
-			},
-			{
-				Typ: BulkString,
-				Str: []byte("1"),
-			},
-		},
-	}
-	assert.Equal(t, "SELECT 1", arrayValue3.String(), "should be euqal")
-
-	//Xadd x 1 f1 v1 f2 v2 f3 v3
-
-	arrayValue4 := Value{
-		Typ: Array,
-		ArrayV: []Value{
-			{
-				Typ: BulkString,
-				Str: []byte("XADD"),
-			},
-			{
-				Typ: BulkString,
-				Str: []byte("x"),
-			},
-			{
-				Typ: BulkString,
-				Str: []byte("1"),
-			},
-			{
-				Typ: BulkString,
-				Str: []byte("f1"),
-			},
-			{
-				Typ: BulkString,
-				Str: []byte("v1"),
-			},
-			{
-				Typ: BulkString,
-				Str: []byte("f2"),
-			},
-			{
-				Typ: BulkString,
-				Str: []byte("v2"),
-			},
-			{
-				Typ: BulkString,
-				Str: []byte("f3"),
-			},
-			{
-				Typ: BulkString,
-				Str: []byte("v3"),
-			},
-		},
-	}
-	assert.Equal(t, "XADD x 1 f1 v1 f2 v2 f3 v3", arrayValue4.String(), "should be euqal")
-}
+//func TestArrayString(t *testing.T) {
+//	arrayValue := Value{
+//		Typ: Array,
+//		ArrayV: []Value{
+//			{
+//				Typ: BulkString,
+//				Str: []byte("SET"),
+//			},
+//			{
+//				Typ: BulkString,
+//				Str: []byte("A"),
+//			},
+//			{
+//				Typ: BulkString,
+//				Str: []byte("123"),
+//			},
+//		},
+//	}
+//
+//	arrayStr := arrayValue.String()
+//
+//	assert.Equal(t, "SET A 123", arrayStr, "should be euqal")
+//
+//	arrayValue2 := Value{
+//		Typ: Array,
+//		ArrayV: []Value{
+//			{
+//				Typ: BulkString,
+//				Str: []byte("SADD"),
+//			},
+//			{
+//				Typ: BulkString,
+//				Str: []byte("SK1"),
+//			},
+//			{
+//				Typ: BulkString,
+//				Str: []byte("1"),
+//			},
+//			{
+//				Typ: BulkString,
+//				Str: []byte("2"),
+//			},
+//		},
+//	}
+//	assert.Equal(t, "SADD SK1 1 2", arrayValue2.String(), "should be euqal")
+//
+//	arrayValue3 := Value{
+//		Typ: Array,
+//		ArrayV: []Value{
+//			{
+//				Typ: BulkString,
+//				Str: []byte("SELECT"),
+//			},
+//			{
+//				Typ: BulkString,
+//				Str: []byte("1"),
+//			},
+//		},
+//	}
+//	assert.Equal(t, "SELECT 1", arrayValue3.String(), "should be euqal")
+//
+//	//Xadd x 1 f1 v1 f2 v2 f3 v3
+//
+//	arrayValue4 := Value{
+//		Typ: Array,
+//		ArrayV: []Value{
+//			{
+//				Typ: BulkString,
+//				Str: []byte("XADD"),
+//			},
+//			{
+//				Typ: BulkString,
+//				Str: []byte("x"),
+//			},
+//			{
+//				Typ: BulkString,
+//				Str: []byte("1"),
+//			},
+//			{
+//				Typ: BulkString,
+//				Str: []byte("f1"),
+//			},
+//			{
+//				Typ: BulkString,
+//				Str: []byte("v1"),
+//			},
+//			{
+//				Typ: BulkString,
+//				Str: []byte("f2"),
+//			},
+//			{
+//				Typ: BulkString,
+//				Str: []byte("v2"),
+//			},
+//			{
+//				Typ: BulkString,
+//				Str: []byte("f3"),
+//			},
+//			{
+//				Typ: BulkString,
+//				Str: []byte("v3"),
+//			},
+//		},
+//	}
+//	assert.Equal(t, "XADD x 1 f1 v1 f2 v2 f3 v3", arrayValue4.String(), "should be euqal")
+//}
 
 func TestMarshalStrangeValue(t *testing.T) {
 	var v Value
@@ -155,98 +167,16 @@ func TestMarshalStrangeValue(t *testing.T) {
 	}
 }
 
-func randRESPInteger() string {
-	return fmt.Sprintf(":%d\r\n", (randInt()%1000000)-500000)
-}
-
-func randRESPSimpleString() string {
-	return "+" + strings.Replace(randString(), "\r\n", "", -1) + "\r\n"
-}
-
-func randRESPError() string {
-	return "-" + strings.Replace(randString(), "\r\n", "", -1) + "\r\n"
-}
-
-func randRESPBulkString() string {
-	s := randString()
-	if len(s)%1024 == 0 {
-		return "$-1\r\n"
-	}
-	return "$" + strconv.FormatInt(int64(len(s)), 10) + "\r\n" + s + "\r\n"
-}
-
-func randRESPArray() string {
-	n := randInt() % 10
-	if n%10 == 0 {
-		return "$-1\r\n"
-	}
-	s := "*" + strconv.FormatInt(int64(n), 10) + "\r\n"
-	for i := 0; i < n; i++ {
-		rn := randInt() % 100
-		if rn == 0 {
-			s += randRESPArray()
-		} else {
-			switch (rn - 1) % 4 {
-			case 0:
-				s += randRESPInteger()
-			case 1:
-				s += randRESPSimpleString()
-			case 2:
-				s += randRESPError()
-			case 3:
-				s += randRESPBulkString()
-			}
-		}
-	}
-	return s
-}
-
-func randInt() int {
-	n := int(binary.LittleEndian.Uint64(randBytes(8)))
-	if n < 0 {
-		n *= -1
-	}
-	return n
-}
-
-func randBytes(n int) []byte {
-	b := make([]byte, n)
-	if _, err := io.ReadFull(rand.Reader, b); err != nil {
-		panic("random error: " + err.Error())
-	}
-	return b
-}
-
-func randString() string {
-	return string(randBytes(randInt() % 1024))
-}
-
-func randRESPAny() string {
-	switch randInt() % 5 {
-	case 0:
-		return randRESPInteger()
-	case 1:
-		return randRESPSimpleString()
-	case 2:
-		return randRESPError()
-	case 3:
-		return randRESPBulkString()
-	case 4:
-		return randRESPArray()
-	}
-	panic("?")
-}
-
-func TestRdbStart(t *testing.T) {
-	fullsync := "+FULLRESYNC 875aa386440719e2d343628d44225b7bed0a0acc 4321"
-	v := Value{Str: []byte(fullsync)}
-
-	assert.Equal(t, Rdb, v.Type(), "should be is rdb type.")
-
-	runid, offset := v.ReplInfo()
-	assert.Equal(t, "875aa386440719e2d343628d44225b7bed0a0acc", runid, "should be equal.")
-	assert.Equal(t, int64(4321), offset, "should be equal.")
-}
+//func TestRdbStart(t *testing.T) {
+//	fullsync := "+FULLRESYNC 875aa386440719e2d343628d44225b7bed0a0acc 4321"
+//	v := Value{Str: []byte(fullsync)}
+//
+//	assert.Equal(t, Rdb, v.Type(), "should be is rdb type.")
+//
+//	runid, offset := v.ReplInfo()
+//	assert.Equal(t, "875aa386440719e2d343628d44225b7bed0a0acc", runid, "should be equal.")
+//	assert.Equal(t, int64(4321), offset, "should be equal.")
+//}
 
 func TestMultiBulkBytes(t *testing.T) {
 	expected := []byte{'*', '3', '\r', '\n', '$', '3', '\r', '\n', 'S', 'E', 'T', '\r', '\n', '$', '1', '\r', '\n', 'x', '\r', '\n', '$', '4', '\r', '\n', '1', '2', '3', '4', '\r', '\n'}
@@ -364,81 +294,31 @@ func TestFloats(t *testing.T) {
 	}
 }
 
-// TestLotsaRandomness does generates N resp messages and reads the values though a RedisReader.
-// It then marshals the values back to strings and compares to the original.
-// All data and resp types are random.
-func TestBigFragmented(t *testing.T) {
-	b := make([]byte, 10*1024*1024)
-	if _, err := rand.Read(b); err != nil {
-		t.Fatal(err)
-	}
-	cmd := []byte("*3\r\n$3\r\nSET\r\n$3\r\nKEY\r\n$" + strconv.FormatInt(int64(len(b)), 10) + "\r\n" + string(b) + "\r\n")
-	cmdlen := len(cmd)
-	pr, pw := io.Pipe()
-	frag := 1024
-	go func() {
-		defer pw.Close()
-		for len(cmd) >= frag {
-			if _, err := pw.Write(cmd[:frag]); err != nil {
-				t.Fatal(err)
-			}
-			cmd = cmd[frag:]
-		}
-		if len(cmd) > 0 {
-			if _, err := pw.Write(cmd); err != nil {
-				t.Fatal(err)
-			}
-		}
-	}()
-	r := newReader(pr)
-	value, n, err := r.readMultiBulk()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if n != cmdlen {
-		t.Fatalf("expected %v, got %v", cmdlen, n)
-	}
-
-	arr := value.Array()
-	if len(arr) != 3 {
-		t.Fatalf("expected 3, got %v", len(arr))
-	}
-	if arr[0].String() != "SET" {
-		t.Fatalf("expected 'SET', got %v", arr[0].String())
-	}
-	if arr[1].String() != "KEY" {
-		t.Fatalf("expected 'KEY', got %v", arr[0].String())
-	}
-	if bytes.Compare(arr[2].Bytes(), b) != 0 {
-		t.Fatal("bytes not equal")
-	}
-}
-
-func TestTelnetRedisReader(t *testing.T) {
-	rd := newReader(bytes.NewBufferString("SET HELLO WORLD\r\nGET HELLO\r\n"))
-	for i := 0; ; i++ {
-		v, _, err := rd.readMultiBulk()
-		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			t.Fatal(err)
-		}
-		arr := v.Array()
-		switch i {
-		default:
-			t.Fatalf("i is %v, expected 0 or 1", i)
-		case 0:
-			if len(arr) != 3 {
-				t.Fatalf("expected 3, got %v", len(arr))
-			}
-		case 1:
-			if len(arr) != 2 {
-				t.Fatalf("expected 2, got %v", len(arr))
-			}
-		}
-	}
-}
+//func TestTelnetRedisReader(t *testing.T) {
+//	rd := newReader(bytes.NewBufferString("SET HELLO WORLD\r\nGET HELLO\r\n"))
+//	for i := 0; ; i++ {
+//		v, _, err := rd.readMultiBulk()
+//		if err != nil {
+//			if err == io.EOF {
+//				break
+//			}
+//			t.Fatal(err)
+//		}
+//		arr := v.Array()
+//		switch i {
+//		default:
+//			t.Fatalf("i is %v, expected 0 or 1", i)
+//		case 0:
+//			if len(arr) != 3 {
+//				t.Fatalf("expected 3, got %v", len(arr))
+//			}
+//		case 1:
+//			if len(arr) != 2 {
+//				t.Fatalf("expected 2, got %v", len(arr))
+//			}
+//		}
+//	}
+//}
 
 func TestRedisWriter(t *testing.T) {
 	expected := "" + "*4\r\n$5\r\nHELLO\r\n$1\r\n1\r\n$1\r\n2\r\n$1\r\n3\r\n"
@@ -454,41 +334,41 @@ func TestRedisWriter(t *testing.T) {
 	}
 }
 
-func TestWriteStringData(t *testing.T) {
-	res := "*3\r\n$3\r\nSET\r\n$1\r\nx\r\n$3\r\n123\r\n"
-	wr := newWriter(nil)
-	err := wr.writeMultiBulk("SET", "x", "123")
-	assert.Equal(t, nil, err, "should be not error.")
-	assert.Equal(t, res, string(wr.get()), "should be equal.")
-}
+//func TestWriteStringData(t *testing.T) {
+//	res := "*3\r\n$3\r\nSET\r\n$1\r\nx\r\n$3\r\n123\r\n"
+//	wr := newWriter(nil)
+//	err := wr.writeMultiBulk("SET", "x", "123")
+//	assert.Equal(t, nil, err, "should be not error.")
+//	assert.Equal(t, res, string(wr.get()), "should be equal.")
+//}
+//
+//func TestWriter(t *testing.T) {
+//	t.Run("Ping", func(t *testing.T) {
+//		testWrite(
+//			t,
+//			"*1\r\n$4\r\nPING\r\n",
+//			"PING",
+//		)
+//	})
+//
+//	t.Run("Sadd", func(t *testing.T) {
+//		testWrite(
+//			t,
+//			"*5\r\n$4\r\nSADD\r\n$2\r\nS1\r\n$1\r\n1\r\n$1\r\n2\r\n$1\r\n3\r\n",
+//			"SADD",
+//			"S1",
+//			1,
+//			2,
+//			"3",
+//		)
+//	})
+//}
 
-func TestWriter(t *testing.T) {
-	t.Run("Ping", func(t *testing.T) {
-		testWrite(
-			t,
-			"*1\r\n$4\r\nPING\r\n",
-			"PING",
-		)
-	})
-
-	t.Run("Sadd", func(t *testing.T) {
-		testWrite(
-			t,
-			"*5\r\n$4\r\nSADD\r\n$2\r\nS1\r\n$1\r\n1\r\n$1\r\n2\r\n$1\r\n3\r\n",
-			"SADD",
-			"S1",
-			1,
-			2,
-			"3",
-		)
-	})
-}
-
-func testWrite(t *testing.T, expected string, src string, args ...interface{}) {
-	wr := newWriter(nil)
-	assert.Equal(t, nil, wr.writeMultiBulk(src, args...), "should be not error.")
-	assert.Equal(t, expected, string(wr.get()), "should be equal.")
-}
+//func testWrite(t *testing.T, expected string, src string, args ...interface{}) {
+//	wr := newWriter(nil)
+//	assert.Equal(t, nil, wr.writeMultiBulk(src, args...), "should be not error.")
+//	assert.Equal(t, expected, string(wr.get()), "should be equal.")
+//}
 
 func TestReader(t *testing.T) {
 
