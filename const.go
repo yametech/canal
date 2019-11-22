@@ -1,7 +1,22 @@
+/*
+Copyright 2019 yametech.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package canal
 
 import (
-	"math"
 	"net"
 )
 
@@ -65,7 +80,7 @@ const (
 	rdb32bitLen = 0x80
 	rdb64bitLen = 0x81
 	rdbEncVal   = 3
-	rdbLenErr   = math.MaxUint64
+	//rdbLenErr   = math.MaxUint64
 
 	rdbOpCodeModuleAux = 247
 	rdbOpCodeIdle      = 248
@@ -77,20 +92,20 @@ const (
 	rdbOpCodeSelectDB  = 254
 	rdbOpCodeEOF       = 255
 
-	rdbModuleOpCodeEOF    = 0
-	rdbModuleOpCodeSint   = 1
-	rdbModuleOpCodeUint   = 2
-	rdbModuleOpCodeFloat  = 3
-	rdbModuleOpCodeDouble = 4
-	rdbModuleOpCodeString = 5
-
-	rdbLoadNone  = 0
-	rdbLoadEnc   = (1 << 0)
-	rdbLoadPlain = (1 << 1)
-	rdbLoadSds   = (1 << 2)
-
-	rdbSaveNode        = 0
-	rdbSaveAofPreamble = (1 << 0)
+	//rdbModuleOpCodeEOF    = 0
+	//rdbModuleOpCodeSint   = 1
+	//rdbModuleOpCodeUint   = 2
+	//rdbModuleOpCodeFloat  = 3
+	//rdbModuleOpCodeDouble = 4
+	//rdbModuleOpCodeString = 5
+	//
+	//rdbLoadNone  = 0
+	//rdbLoadEnc   = (1 << 0)
+	//rdbLoadPlain = (1 << 1)
+	//rdbLoadSds   = (1 << 2)
+	//
+	//rdbSaveNode        = 0
+	//rdbSaveAofPreamble = (1 << 0)
 
 	rdbEncInt8  = 0
 	rdbEncInt16 = 1
@@ -108,13 +123,13 @@ const (
 	rdbZiplistInt8  = 0xfe
 	rdbZiplistInt4  = 15
 
-	rdbLpHdrSize           = 6
-	rdbLpHdrNumeleUnknown  = math.MaxUint16
-	rdbLpMaxIntEncodingLen = 0
-	rdbLpMaxBacklenSize    = 5
-	rdbLpMaxEntryBacklen   = 34359738367
-	rdbLpEncodingInt       = 0
-	rdbLpEncodingString    = 1
+	//rdbLpHdrSize           = 6
+	//rdbLpHdrNumeleUnknown  = math.MaxUint16
+	//rdbLpMaxIntEncodingLen = 0
+	//rdbLpMaxBacklenSize    = 5
+	//rdbLpMaxEntryBacklen   = 34359738367
+	//rdbLpEncodingInt       = 0
+	//rdbLpEncodingString    = 1
 
 	rdbLpEncoding7BitUint     = 0
 	rdbLpEncoding7BitUintMask = 0x80
@@ -143,8 +158,8 @@ const (
 	rdbLpEncoding32BitStr     = 0xF0
 	rdbLpEncoding32BitStrMask = 0xFF
 
-	rdbLpEOF                     = 0xFF
-	rdbStreamItemFlagNone        = 0        /* No special flags. */
-	rdbStreamItemFlagDeleted     = (1 << 0) /* Entry was deleted. Skip it. */
+	rdbLpEOF              = 0xFF
+	rdbStreamItemFlagNone = 0 /* No special flags. */
+	//rdbStreamItemFlagDeleted     = (1 << 0) /* Entry was deleted. Skip it. */
 	rdbStreamItemFlangSameFields = (1 << 1) /* Same fields as master entry. */
 )
