@@ -39,12 +39,12 @@ func (rd *reader) readBulk() (value Value, n int, err error) {
 	return
 }
 
-// readMultiBulk reads the next multi bulk Value from Reader.
-// A multi bulk value is a RESP ArrayV that contains one or more bulk strings.
-// For more information on RESP arrays and strings please see http://redis.io/topics/protocol.
-func (rd *reader) readMultiBulk() (value Value, n int, err error) {
-	return rd.readValue(true, false)
-}
+//// readMultiBulk reads the next multi bulk Value from Reader.
+//// A multi bulk value is a RESP ArrayV that contains one or more bulk strings.
+//// For more information on RESP arrays and strings please see http://redis.io/topics/protocol.
+//func (rd *reader) readMultiBulk() (value Value, n int, err error) {
+//	return rd.readValue(true, false)
+//}
 
 func (rd *reader) readValue(multibulk, child bool) (val Value, n int, err error) {
 	var rn int
