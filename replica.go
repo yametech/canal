@@ -49,7 +49,7 @@ func (c *Canal) dump(w io.Writer) error {
 		if err != nil {
 			return err
 		}
-		xmit.Put(&buf)
+		xmit.Put(buf)
 	}
 }
 
