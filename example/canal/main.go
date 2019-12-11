@@ -12,18 +12,30 @@ import (
 
 type printer struct{}
 
+var x int64
+var last int64
+
 func (p *printer) Command(cmd *canal.Command) error {
-	log.Printf("[PRINTER] cmd=%s\n", cmd)
+	//log.Printf("[PRINTER] cmd=%s\n", cmd)
+	x++
+
 	return nil
 }
 
 func main() {
 	log.SetOutput(os.Stdout)
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	tk := time.NewTicker(1 * time.Second)
+	go func() {
+		for range tk.C {
+			log.Printf("rec  %d current %d", x, x-last)
+			last = x
+		}
+	}()
 
 	cfg, err := canal.NewConfig(
 		// "10.1.1.228:8001",
-		"10.200.10.19:7003",
+		"127.0.0.1:6379",
 		// "127.0.0.1:6379",
 		// "127.0.0.1:6377",
 		canal.DialKeepAlive(time.Hour*16800),
