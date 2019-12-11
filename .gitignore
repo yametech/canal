@@ -15,3 +15,8 @@
 # Dependency directories (remove the comment below to include it)
  vendor/
  .idea/
+.idea/.gitignore
+.idea/canal.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
