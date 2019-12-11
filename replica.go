@@ -63,7 +63,7 @@ func (lb *LeakyBuf) Put(b []byte) {
 		panic("invalid buffer size that's put into leaky buffer")
 	}
 	select {
-	case lb.freeList <- b:
+	case lb.freeList <- b[:lb.bufSize]:
 	default:
 	}
 	return
