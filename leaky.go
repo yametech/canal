@@ -1,6 +1,5 @@
 package canal
 
-
 type LeakyBuf struct {
 	bufSize  int // size of each buffer
 	freeList chan []byte
@@ -36,7 +35,7 @@ func (lb *LeakyBuf) Put(b []byte) {
 	case lb.freeList <- b[:lb.bufSize]:
 	default:
 	}
-	return
+	// return
 }
 
 type LeakyBufCommand struct {
@@ -58,10 +57,11 @@ func (lb *LeakyBufCommand) Get() (b *Command) {
 	}
 	return
 }
+
 func (lb *LeakyBufCommand) Put(b *Command) {
 	select {
 	case lb.freeList <- b:
 	default:
 	}
-	return
+	// return
 }
