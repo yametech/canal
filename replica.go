@@ -70,11 +70,11 @@ func (lb *LeakyBuf) Put(b []byte) {
 }
 
 var (
-	lazyCmdPool = sync.Pool{
-		New: func() interface{} {
-			return &Command{}
-		},
-	}
+	// lazyCmdPool = sync.Pool{
+	// 	New: func() interface{} {
+	// 		return &Command{}
+	// 	},
+	// }
 	xmit = leakyBuf
 )
 
@@ -143,13 +143,14 @@ func (c *Canal) handler(rd io.Reader) error {
 				c.replId = ss[1]
 			}
 		case '*':
-			cmd := lazyCmdPool.Get().(*Command)
+			// cmd := lazyCmdPool.Get().(*Command)
+			cmd := &Command{}
 			cmd.Set(buildStrCommand(val.String())...)
 			err = c.Command(cmd)
 			if err != nil {
 				return err
 			}
-			lazyCmdPool.Put(cmd)
+			// lazyCmdPool.Put(cmd)
 			c.Increment(int64(n))
 		default:
 			log.Printf("address %s replId %s unknown opcode %v size %d", c.ip, c.replId, val, val.Size)
