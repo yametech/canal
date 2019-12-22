@@ -31,9 +31,9 @@ const maxNBuf = 2048
 
 var (
 	leakyBuf        = NewLeakyBuf(maxNBuf, leakyBufSize)
-	leakyBufCommand = NewLeakyBufCommand(maxNBuf)
+	//leakyBufCommand = NewLeakyBufCommand(maxNBuf)
 
-	lazyCmdPool     = leakyBufCommand
+	//lazyCmdPool     = leakyBufCommand
 	xmit            = leakyBuf
 )
 
