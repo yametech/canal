@@ -37,31 +37,31 @@ func (lb *LeakyBuf) Put(b []byte) {
 	}
 	// return
 }
-
-type LeakyBufCommand struct {
-	freeList chan *Command
-}
-
-func NewLeakyBufCommand(n int) *LeakyBufCommand {
-	return &LeakyBufCommand{
-		freeList: make(chan *Command, n),
-	}
-}
-
-// Get returns a buffer from the leaky buffer or create a new buffer.
-func (lb *LeakyBufCommand) Get() (b *Command) {
-	select {
-	case b = <-lb.freeList:
-	default:
-		b = &Command{}
-	}
-	return
-}
-
-func (lb *LeakyBufCommand) Put(b *Command) {
-	select {
-	case lb.freeList <- b:
-	default:
-	}
-	// return
-}
+//
+//type LeakyBufCommand struct {
+//	freeList chan *Command
+//}
+//
+//func NewLeakyBufCommand(n int) *LeakyBufCommand {
+//	return &LeakyBufCommand{
+//		freeList: make(chan *Command, n),
+//	}
+//}
+//
+//// Get returns a buffer from the leaky buffer or create a new buffer.
+//func (lb *LeakyBufCommand) Get() (b *Command) {
+//	select {
+//	case b = <-lb.freeList:
+//	default:
+//		b = &Command{}
+//	}
+//	return
+//}
+//
+//func (lb *LeakyBufCommand) Put(b *Command) {
+//	select {
+//	case lb.freeList <- b:
+//	default:
+//	}
+//	// return
+//}
