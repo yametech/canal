@@ -34,10 +34,7 @@ func main() {
 	}()
 
 	cfg, err := canal.NewConfig(
-		// "10.1.1.228:8001",
 		"127.0.0.1:6379",
-		// "127.0.0.1:6379",
-		// "127.0.0.1:6377",
 		canal.DialKeepAlive(time.Hour*16800),
 		// canal.DialReadTimeout(time.Second*300),
 		// canal.DialWriteTimeout(time.Second*300),

@@ -20,8 +20,7 @@ func main() {
 	log.SetOutput(os.Stdout)
 
 	cfg, err := canal.NewConfig(
-		"10.1.1.228:8001",
-		// "127.0.0.1:6379",
+		"127.0.0.1:6379",
 		canal.DialKeepAlive(time.Minute*5),
 		canal.DialPassword("wtf"),
 	)
