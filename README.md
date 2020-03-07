@@ -2,6 +2,9 @@
 
 ## 简介
 [![Build Status](https://github.com/yametech/canal/workflows/canal/badge.svg?event=push&branch=master)](https://github.com/yametech/canal/actions?workflow=canal)
+[![Go Report Card](https://goreportcard.com/badge/github.com/yametech/canal)](https://goreportcard.com/report/github.com/yametech/canal)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://github.com/yametech/canal/blob/master/LICENSE)
+
 
  canal 支持到redis2.x到 5.x 和向前兼容且具有mixed(rdb+aof)协议的复制工具
 
