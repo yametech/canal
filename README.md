@@ -3,7 +3,7 @@
 ## 简介
 [![Build Status](https://github.com/yametech/canal/workflows/canal/badge.svg?event=push&branch=master)](https://github.com/yametech/canal/actions?workflow=canal)
 
- canal 支持 redis 5.0.5 和向前兼容且 具有mixed协议的复制工具
+ canal 支持到redis2.x到 5.x 和向前兼容且具有mixed(rdb+aof)协议的复制工具
 
  ## 场景
 
@@ -12,19 +12,25 @@
 
 ## 设计
 
-模拟redis slave,然后去dump redis master的rdb和aof
+模拟redis slave,然后去dump redis master的rdb和aof（后续补上架构设计图）
 
 ## 特性
 
 * 支持redis 2.x 到 5.x的数据同步
-* 支持断点续传
+* 支持全量同步和增量同步(断点续传)
 * 支持故障转移
 * 更快
+
+## 内部使用情况
+
+* 2k+ redis实例数据同步,基本跑满网卡。
 
 ### 使用
 
 ```go
+
 go get github.com/yametech/canal
+
 ```
 
 ### 基本使用
@@ -122,10 +128,11 @@ func main() {
 
 ```go
 
+//
 type printer struct{}
 
 func (p *printer) Command(cmd *canal.Command) error {
-	log.Printf("[PRINTER] cmd=%v\n", cmd)
+	// log.Printf("[PRINTER] cmd=%s\n", cmd.String())
 	return nil
 }
 
@@ -134,14 +141,16 @@ func main() {
 
 	cfg, err := canal.NewConfig(
 		"127.0.0.1:6379",
-		canal.DialKeepAlive(time.Hour*5),
+		canal.DialKeepAlive(time.Minute*5),
+		// canal.DialPassword(""),
 	)
-
 	if err != nil {
 		panic(err)
 	}
+	// 自动找主
+	cfg.ReplMaster()
 
-	repl, err := canal.FromOffsetCanal(cfg, "092f679803f3c0fed71f3dc5a28d18a21addb09a", 10315258513)
+	repl, err := canal.NewCanal(cfg)
 	if err != nil {
 		panic(err)
 	}
@@ -149,14 +158,16 @@ func main() {
 	defer repl.Close()
 
 	if err := repl.Run(&printer{}); err != nil {
-		log.Fatalf("error %s", err)
+		panic(err)
 	}
 }
+
 
 ```
 
 ## TODO
 
+- [ ] 支持c/s结构,grpc跨平台使用
 - [ ] redis6.x
 - [ ] 支持etcd,zk,consul等存储位点
 - [ ] 支持集群版本
