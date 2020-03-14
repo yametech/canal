@@ -1,34 +1,34 @@
-# Canal 　　　　　　　　　　　　　　　　　　　　　　[中文](README_zh.md)
+# Canal 　　　　　　　　　　　　　　　　　　　　　　[English](README.md)
 
+## 简介
 [![Build Status](https://github.com/yametech/canal/workflows/canal/badge.svg?event=push&branch=master)](https://github.com/yametech/canal/actions?workflow=canal)
 [![Go Report Card](https://goreportcard.com/badge/github.com/yametech/canal)](https://goreportcard.com/report/github.com/yametech/canal)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://github.com/yametech/canal/blob/master/LICENSE)
 
-## Introduction
 
- Canal supports redis 2.x to 5.x and forward compatible replication tools with hybrid (rdb + aof) protocol
+ canal 支持到redis2.x到 5.x 和向前兼容且具有mixed(rdb+aof)协议的复制工具
 
- ## Scenes
+ ## 场景
 
-* Redis data synchronization across computer rooms
-* Heterogeneous data migration; such as Redis to mysql, MQ, ES, etc.
+* Redis数据的跨机房同步
+* 异构数据的迁移；比如Redis到mysql，MQ，ES等
 
-## Design
+## 设计
 
-Simulate the redis slave, then go to dump the rdb and aof of the redis master (add the architecture design diagram later)
+模拟redis slave,然后去dump redis master的rdb和aof（后续补上架构设计图）
 
-## Features
+## 特性
 
-* Support redis 2.x to 5.x data synchronization
-* Support full synchronization and incremental synchronization (continued resume)
-* Support failover
-* Faster
+* 支持redis 2.x 到 5.x的数据同步
+* 支持全量同步和增量同步(断点续传)
+* 支持故障转移
+* 更快
 
-## Company Internal use
+## 内部使用情况
 
-* 2k + redis instance data synchronization
+* 2k+ redis实例数据同步,基本跑满网卡。
 
-### Usage
+### 使用
 
 ```go
 
@@ -36,7 +36,7 @@ go get github.com/yametech/canal
 
 ```
 
-### Basic Usage
+### 基本使用
 
 ```go
 package main
@@ -80,7 +80,7 @@ func main() {
 }
 ```
 
-### Use of breakpoint resume
+### 断点续传使用
 
 ``` go
 
@@ -127,7 +127,7 @@ func main() {
 
 ```
 
-### Failover usage
+### 故障转移使用
 
 ```go
 
@@ -135,7 +135,7 @@ func main() {
 type printer struct{}
 
 func (p *printer) Command(cmd *canal.Command) error {
-	log.Printf("[PRINTER] cmd=%s\n", cmd.String())
+	// log.Printf("[PRINTER] cmd=%s\n", cmd.String())
 	return nil
 }
 
@@ -150,7 +150,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	
+	// 自动找主
 	cfg.ReplMaster()
 
 	repl, err := canal.NewCanal(cfg)
@@ -170,9 +170,9 @@ func main() {
 
 ## TODO
 
-- [ ] Support c / s structure, grpc cross platform use
-- [ ] redis 6.x
-- [ ] Support etcd, zk, consul and other storage position
-- [ ] Support cluster
-- [ ] Automatic maintenance of redis topology structure
+- [ ] 支持c/s结构,grpc跨平台使用
+- [ ] redis6.x
+- [ ] 支持etcd,zk,consul等存储位点
+- [ ] 支持集群版本
+- [ ] 支持自动维护redis Topology结构
 
