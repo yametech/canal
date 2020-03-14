@@ -1,4 +1,4 @@
-# Canal 　　　　　　　　　　　　　　　　　　　　　　[English](README.md)
+# Canal 　　　　　　　　　　　　　　　　　　　　[English](README.md)
 
 ## 简介
 [![Build Status](https://github.com/yametech/canal/workflows/canal/badge.svg?event=push&branch=master)](https://github.com/yametech/canal/actions?workflow=canal)
