@@ -50,7 +50,7 @@ func main() {
 	}()
 
 	cfg, err := canal.NewConfig(
-		"10.200.100.200:6379",
+		"127.0.0.1:6379",
 		canal.DialKeepAlive(time.Hour*16800),
 		canal.DialWithLocalPort(6379),
 		// canal.DialReadTimeout(time.Second*300),
