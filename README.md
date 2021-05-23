@@ -59,8 +59,9 @@ func main() {
 	log.SetOutput(os.Stdout)
 
 	cfg, err := canal.NewConfig(
-		"127.0.0.1:8888",
-		canal.DialKeepAlive(time.Minute*5),
+		"127.0.0.1:6379",
+		canal.DialKeepAlive(time.Hour*16800),
+		canal.DialWithLocalPort(6379), // use specified local port
 	)
 
 	if err != nil {

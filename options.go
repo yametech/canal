@@ -40,6 +40,13 @@ type dialOptions struct {
 	tlsConfig    *tls.Config
 }
 
+// DialWithLocalPort specify the local port to initiate a connection.
+func DialWithLocalPort(port int) DialOption {
+	return DialOption{func(do *dialOptions) {
+		do.dialer.LocalAddr = &net.TCPAddr{Port: port}
+	}}
+}
+
 // DialReadTimeout specifies the timeout for reading a single command reply.
 func DialReadTimeout(d time.Duration) DialOption {
 	return DialOption{func(do *dialOptions) {
